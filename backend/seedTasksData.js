@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const MONGO_URL =
-  process.env.MONGO_URI || 'mongodb://mongo:27017/studentdb';
+  process.env.MONGO_URI || 'mongodb://localhost:27017/studentdb';
 
 // Student Schema
 const studentSchema = new mongoose.Schema({
