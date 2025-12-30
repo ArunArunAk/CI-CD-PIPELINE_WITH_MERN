@@ -74,6 +74,7 @@ describe("GET api/students", () => {
   it("it should return array", async () => {
     const res = await request(app).get("/api/students");
     expect(res.body).toBeInstanceOf(Array);
+    console.log(res.body,"data seeds");
   });
 
   // 3.DATABASE FAILURE (MOCK)
