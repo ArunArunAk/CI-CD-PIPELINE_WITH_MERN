@@ -40,10 +40,14 @@ Dockerfile.dev
 /frontend/dist
 /frontend/node_modules
 /frontend/.env
+/frontend/.env.prod
+
 
 # Backend specific
 /backend/node_modules
 /backend/.env
+/backend/.env.prod
+
 
 # Misc
 *.local
