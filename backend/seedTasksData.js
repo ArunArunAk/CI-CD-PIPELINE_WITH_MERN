@@ -45,7 +45,7 @@ async function seedStudents() {
       },
       {
         name: 'Rahul Verma*',
-        email: 'rahul@gmail.com',
+        age: 21,
         grade: 'K',
       },
       {
