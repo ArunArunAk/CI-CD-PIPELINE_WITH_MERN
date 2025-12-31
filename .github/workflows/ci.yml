@@ -6,13 +6,14 @@ on:
       - main
 
 jobs:
-  mongo-init:           
+  mongo-init:
     runs-on: ubuntu-latest
 
     services:
       mongo:
         image: mongo:latest
-        ports: ['27017:27017']      
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout code repository into ubuntu server
@@ -33,6 +34,8 @@ jobs:
 
       - name: Install dependencies & seed MongoDB
         working-directory: ./backend
+        env:
+          MONGO_URI: mongodb://localhost:27017/studentdb
         run: |
           npm install
           node seedTasksData.js
@@ -40,6 +43,16 @@ jobs:
   unit-test-backend:
     runs-on: ubuntu-latest
     needs: mongo-init
+
+    services:
+      mongo:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    env:
+      NODE_ENV: test
+      MONGO_URI: mongodb://localhost:27017/studentdb
 
     steps:
       - name: Checkout code repository into ubuntu server
@@ -50,10 +63,15 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Wait for MongoDB to be ready
+        run: |
+          until nc -z localhost 27017; do
+            echo "Waiting for MongoDB..."
+            sleep 2
+          done
+
       - name: Install dependencies for backend & run unit tests
         working-directory: ./backend
-        env:
-          MONGO_URI: mongodb://localhost:27017/studentdb
         run: |
           npm install
           npm test
