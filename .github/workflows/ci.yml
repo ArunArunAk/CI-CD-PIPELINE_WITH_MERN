@@ -6,48 +6,10 @@ on:
       - main
 
 jobs:
-  mongo-init:
-    runs-on: ubuntu-latest
-
-    env:
-      PORT: ${{ secrets.PORT }}
-      MONGO_URI: ${{ secrets.MONGO_URI }}
-
-    services:
-      mongo:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-
-    steps:
-      - name: Checkout code repository into ubuntu server
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Wait for MongoDB to be ready
-        run: |
-          until nc -z localhost 27017; do
-            echo "Waiting for MongoDB to start..."
-            sleep 2
-          done
-          echo "MongoDB is up and running!"
-
-      - name: Install dependencies & seed MongoDB
-        working-directory: ./backend
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: |
-          npm install
-          node seedTasksData.js
-
+ 
   unit-test-backend:
     runs-on: ubuntu-latest
     
-
     services:
       mongo:
         image: mongo:latest
