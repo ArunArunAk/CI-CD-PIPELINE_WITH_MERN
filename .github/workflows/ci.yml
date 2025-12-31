@@ -40,6 +40,7 @@ jobs:
 
   unit-test-backend:
     runs-on: ubuntu-latest
+    needs: mongo-init
 
     steps:
       - name: Checkout code repository into ubuntu server
@@ -52,6 +53,8 @@ jobs:
 
       - name: Install dependencies for backend & run unit tests
         working-directory: ./backend
+        env:
+        MONGO_URI: mongodb://mongo:27017/studentdb
         run: |
           npm install
           npm test
