@@ -79,7 +79,7 @@ console.log("API_URL:", API_URL);
   return (
     <div>
       <div className="container">
-        <h1>Student Management with cicd pipleine</h1>
+        <h1>Student Management with cicd</h1>
         <form onSubmit={handleFormSubmit} className="student-form">
           <input
             type="text"
