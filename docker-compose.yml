@@ -34,23 +34,23 @@ services:
     networks:
       - mern-network
 
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-      - "443:443"
-    env_file:
-      - "./frontend/.env.prod"         # <-- SSL paths loaded from .env.prod
-    volumes:
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./frontend:/usr/share/nginx/html:ro
-      - ./letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      - frontend
-      - backend
-    networks:
-      - mern-network
-    restart: unless-stopped
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   env_file:
+  #     - "./frontend/.env.prod"         # <-- SSL paths loaded from .env.prod
+  #   volumes:
+  #     - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  #     - ./frontend:/usr/share/nginx/html:ro
+  #     - ./letsencrypt:/etc/letsencrypt:ro
+  #   depends_on:
+  #     - frontend
+  #     - backend
+  #   networks:
+  #     - mern-network
+  #   restart: unless-stopped
 
      
 volumes:
