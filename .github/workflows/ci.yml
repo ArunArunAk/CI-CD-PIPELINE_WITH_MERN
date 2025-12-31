@@ -6,10 +6,9 @@ on:
       - main
 
 jobs:
- 
   unit-test-backend:
     runs-on: ubuntu-latest
-    
+
     services:
       mongo:
         image: mongo:latest
@@ -19,9 +18,10 @@ jobs:
     env:
       PORT: ${{ secrets.PORT }}
       MONGO_URI: ${{ secrets.MONGO_URI }}
+      NODE_ENV: test
 
     steps:
-      - name: Checkout code repository into ubuntu server
+      - name: Checkout code repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js environment
@@ -35,9 +35,40 @@ jobs:
             echo "Waiting for MongoDB..."
             sleep 2
           done
+          echo "MongoDB is ready ✅"
 
-      - name: Install dependencies for backend & run unit tests
+      - name: Install backend dependencies
         working-directory: ./backend
+        run: npm install
+        id: install_dependencies
+        continue-on-error: false
+
+      - name: Run ESLint
+        working-directory: ./backend
+        run: npm run lint
+        id: eslint_check
+        continue-on-error: true
+
+      - name: Check ESLint result
+        if: always()
         run: |
-          npm install
-          npm test
+          if [ "${{ steps.eslint_check.outcome }}" = "success" ]; then
+            echo "✅ ESLint passed. Code quality is good"
+          else
+            echo "⚠️ ESLint failed. Please fix lint issues"
+          fi
+
+      - name: Run unit tests
+        working-directory: ./backend
+        run: npm test
+        id: unit_tests
+        continue-on-error: false
+
+      - name: Check test result
+        if: always()
+        run: |
+          if [ "${{ steps.unit_tests.outcome }}" = "success" ]; then
+            echo "✅ Unit tests passed"
+          else
+            echo "❌ Unit tests failed"
+          fi
