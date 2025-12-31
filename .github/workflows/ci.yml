@@ -9,6 +9,10 @@ jobs:
   mongo-init:
     runs-on: ubuntu-latest
 
+    env:
+      PORT: ${{ secrets.PORT }}
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+
     services:
       mongo:
         image: mongo:latest
@@ -42,7 +46,7 @@ jobs:
 
   unit-test-backend:
     runs-on: ubuntu-latest
-    needs: mongo-init
+    
 
     services:
       mongo:
