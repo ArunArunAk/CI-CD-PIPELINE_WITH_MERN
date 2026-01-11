@@ -35,7 +35,7 @@ jobs:
             echo "Waiting for MongoDB..."
             sleep 2
           done
-          echo "MongoDB is ready ✅"
+          echo "MongoDB is ready "
 
       - name: Install backend dependencies
         working-directory: ./backend
@@ -55,9 +55,9 @@ jobs:
         if: always()
         run: |
           if [ "${{ steps.eslint_check.outcome }}" = "success" ]; then
-            echo "✅ ESLint passed. Code quality is good"
+            echo " ESLint passed. Code quality is good"
           else
-            echo "⚠️ ESLint failed. Please fix lint issues"
+            echo " ESLint failed. Please fix lint issues"
           fi
 
       - name: Run unit tests
